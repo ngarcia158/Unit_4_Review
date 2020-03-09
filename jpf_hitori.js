@@ -48,8 +48,69 @@
 */
 
 
+var allCells;
 
+window.onload = startUp();
 
+function startUp(){
+   var puzzleButtons = document.getElementsByClassName("puzzles")
+   document.getElementById("puzzleTitle").innerHTML = "Puzzle 1";
+   document.getElementById("puzzle").innerHTML = drawHitori(hitori1Numbers, hitori1Blocks, hitori1Rating);
+   for(var i = 0; i < puzzleButtons.length; i++){
+      puzzleButtons[i].onclick = switchPuzzle;
+   }
+   setupPuzzle();
+   document.getElementById("check").addEventListener("click", findErrors);
+   document.getElementById("solve").addEventListener("click", showSolution);
+}
+function switchPuzzle(e){
+   if(confirm("YOU WILL LOSE ALL PROGRESS: continue?")){
+      var puzzleID = e.target.id;
+      document.getElementById("puzzleTitle").innerHTML = e.target.value;
+      switch(puzzleID){
+         case "puzzle1":
+            document.getElementById("puzzle").innerHTML = drawHitori(hitori1Numbers, hitori1Blocks, hitori1Rating);
+            break;
+         case "puzzle2":
+            document.getElementById("puzzle").innerHTML = drawHitori(hitori2Numbers, hitori2Blocks, hitori2Rating);
+            break;
+         case "puzzle3":
+            document.getElementById("puzzle").innerHTML = drawHitori(hitori3Numbers, hitori3Blocks, hitori3Rating);
+            break;
+      }
+      setupPuzzle();
+   }
+
+}
+
+function setupPuzzle(){
+   allCells = document.querySelectorAll("table td")
+   for(var i = 0; i<allCells.length; i++){
+      allCells[i].style.backgroundColor = "white";
+      allCells[i].style.color = "black";
+      allCells[i].style.borderRadius = "0";
+
+      allCells[i].addEventListener("mousedown", function(){
+         if(e.shiftKey){
+            allCells[i].style.backgroundColor = "white";
+            allCells[i].style.color = "black";
+            allCells[i].style.borderRadius = "0";
+         }else if(e.altKey){
+            allCells[i].style.backgroundColor = "black";
+            allCells[i].style.color = "white";
+            allCells[i].style.borderRadius = "0";
+
+         }else{
+            allCells[i].style.backgroundColor = "rgb(101,101,101)";
+            allCells[i].style.color = "white";
+            allCells[i].style.borderRadius = "50%";
+         }
+         
+      }
+   )
+   }
+
+}
 
 
 
