@@ -120,7 +120,7 @@ function setupPuzzle(){
             e.target.style.borderRadius = 0;
 
          }else{
-            e.target.style.backgroundColor = "rgb(101,101,101)";
+            e.target.style.backgroundColor = "rgb(101, 101, 101)";
             e.target.style.color = "white";
             e.target.style.borderRadius = "50%";
          }
@@ -149,16 +149,19 @@ function setupPuzzle(){
 //makes a function that will find the errors made
 function findErrors(){
    //when you check your answers if it is wrong it the text turns red but only for a second and then changes to normal
-   for(var e = 1; e<allCells.length;e++){
-      if(allCells[e].className === "blocks" && allCells[e].style.backgroundColor === "rgb(101,101,100)" || allCells[e].className === "circles" && allCells[e].style.backgroundColor === "black"){
+   for(var e = 0; e<allCells.length;e++){
+      if(allCells[e].className === "blocks" && allCells[e].style.backgroundColor === "rgb(101, 101, 101)" || allCells[e].className === "circles" && allCells[e].style.backgroundColor === "black"){
          allCells[e].style.color = "red";
       }
-      setTimeout(function(){
-        if(allCells[e].style.color = "red"){
-         allCells[e].style.color = "white"
-        } 
-      },1000);
+     
    }
+   setTimeout(function() {
+      for(var i = 0; i<allCells.length;i++){
+      if(allCells[i].style.color === "red"){
+         allCells[i].style.color = "white";
+      } 
+   }
+   } ,1000);
 }
 
 
