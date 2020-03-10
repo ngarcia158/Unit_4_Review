@@ -50,6 +50,7 @@
 
 var allCells;
 
+//makes the funciton startup run as soon as page is loaded
 window.onload = startUp();
 
 function startUp(){
@@ -88,31 +89,55 @@ function setupPuzzle(){
    for(var i = 0; i<allCells.length; i++){
       allCells[i].style.backgroundColor = "white";
       allCells[i].style.color = "black";
-      allCells[i].style.borderRadius = "0";
+      allCells[i].style.borderRadius = 0;
 
-      allCells[i].addEventListener("mousedown", function(){
+      allCells[i].addEventListener("mousedown", function(e){
          if(e.shiftKey){
-            allCells[i].style.backgroundColor = "white";
-            allCells[i].style.color = "black";
-            allCells[i].style.borderRadius = "0";
+            e.target.style.backgroundColor = "white";
+            e.target.style.color = "black";
+            e.target.style.borderRadius = 0;
          }else if(e.altKey){
-            allCells[i].style.backgroundColor = "black";
-            allCells[i].style.color = "white";
-            allCells[i].style.borderRadius = "0";
+            e.target.style.backgroundColor = "black";
+            e.target.style.color = "white";
+            e.target.style.borderRadius = 0;
 
          }else{
-            allCells[i].style.backgroundColor = "rgb(101,101,101)";
-            allCells[i].style.color = "white";
-            allCells[i].style.borderRadius = "50%";
+            e.target.style.backgroundColor = "rgb(101,101,101)";
+            e.target.style.color = "white";
+            e.target.style.borderRadius = "50%";
          }
-         
+         e.target.preventDefault();
       }
-   )
+      )
+         allCells[i].addEventListener("mouseover", function(e){
+            if(e.shiftKey){
+               e.target.style.cursor = "url(jpf_eraser.png), alias";
+            }
+            else if(e.altKey){
+               e.target.style.cursor = "url(jpf_block.png), cell";
+            }
+            else{
+               e.target.style.cursor = "url(jpf_circle.png), pointer";
+            }
+         }
+      );
+      allCells[i].addEventListener("mouseup", checkSolution);
    }
 
 }
 
-
+function findErrors(){
+   for(var e = 1; e<allCells.length;e++){
+      if(allCells[e].className === "blocks" && allCells[e].style.backgroundColor === "rgb(101,101,100)" || allCells[e].className === "circles" && allCells[e].style.backgroundColor === "black"){
+         allCells[e].style.color = "red";
+      }
+      setTimeout(function(){
+        if(allCells[e].style.color = "red"){
+         allCells[e].style.color = "white"
+        } 
+      },1000);
+   }
+}
 
 
 
