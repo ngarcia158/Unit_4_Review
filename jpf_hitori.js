@@ -54,20 +54,30 @@ var allCells;
 window.onload = startUp();
 
 function startUp(){
+   //makes it so the puzzle buttons variable equals the elements gthat have the class name puzzles and inserts the title name ouzzle 1
    var puzzleButtons = document.getElementsByClassName("puzzles")
    document.getElementById("puzzleTitle").innerHTML = "Puzzle 1";
+   //inserts puzzle one into the page
    document.getElementById("puzzle").innerHTML = drawHitori(hitori1Numbers, hitori1Blocks, hitori1Rating);
+
+   //a for loop to run the switch puzzle everytime a puzzle button gets clicked
    for(var i = 0; i < puzzleButtons.length; i++){
       puzzleButtons[i].onclick = switchPuzzle;
    }
    setupPuzzle();
+
+   //makes it so witht he buttons that solves and gives you hints runs the function to do this on a click of them
    document.getElementById("check").addEventListener("click", findErrors);
    document.getElementById("solve").addEventListener("click", showSolution);
 }
 function switchPuzzle(e){
+   //if you try and switch puzzles the text below will display
    if(confirm("YOU WILL LOSE ALL PROGRESS: continue?")){
+      //makes a variable for the puzzle id
       var puzzleID = e.target.id;
       document.getElementById("puzzleTitle").innerHTML = e.target.value;
+
+      //makes a switch case to switch the puzzle based on what button is clicked so it will make puzzle 1 if puzzle 1 is clikced 
       switch(puzzleID){
          case "puzzle1":
             document.getElementById("puzzle").innerHTML = drawHitori(hitori1Numbers, hitori1Blocks, hitori1Rating);
@@ -79,19 +89,27 @@ function switchPuzzle(e){
             document.getElementById("puzzle").innerHTML = drawHitori(hitori3Numbers, hitori3Blocks, hitori3Rating);
             break;
       }
+
+      //runs setUpPuzzle function
       setupPuzzle();
    }
 
 }
 
 function setupPuzzle(){
+   //gives the variable a value of any td in a table in the html
    allCells = document.querySelectorAll("table td")
+
    for(var i = 0; i<allCells.length; i++){
+      //changes the bcakground, color, and font to a base color
       allCells[i].style.backgroundColor = "white";
       allCells[i].style.color = "black";
       allCells[i].style.borderRadius = 0;
 
       allCells[i].addEventListener("mousedown", function(e){
+         //makes a function so on mousedown with the shift key nothing changes about the color but 
+         //with alt changes the background color to black and font color to white
+         //and anything else uses special colors 
          if(e.shiftKey){
             e.target.style.backgroundColor = "white";
             e.target.style.color = "black";
@@ -106,9 +124,11 @@ function setupPuzzle(){
             e.target.style.color = "white";
             e.target.style.borderRadius = "50%";
          }
-         e.target.preventDefault();
+         //prevents any higlighting of website
+         e.preventDefault();
       }
       )
+      //makes it so the cursor changes with each click of the keypad with a mouse hover
          allCells[i].addEventListener("mouseover", function(e){
             if(e.shiftKey){
                e.target.style.cursor = "url(jpf_eraser.png), alias";
@@ -121,12 +141,14 @@ function setupPuzzle(){
             }
          }
       );
+      //runs checkSolution when mouseup on the cells
       allCells[i].addEventListener("mouseup", checkSolution);
    }
 
 }
-
+//makes a function that will find the errors made
 function findErrors(){
+   //when you check your answers if it is wrong it the text turns red but only for a second and then changes to normal
    for(var e = 1; e<allCells.length;e++){
       if(allCells[e].className === "blocks" && allCells[e].style.backgroundColor === "rgb(101,101,100)" || allCells[e].className === "circles" && allCells[e].style.backgroundColor === "black"){
          allCells[e].style.color = "red";
